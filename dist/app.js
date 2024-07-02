@@ -25,7 +25,8 @@ app.use((0, cors_1.default)());
 app.get('/api/hello', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const visitor_name = req.query.visitor_name;
-        const client_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        // const client_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        const client_ip = req.ip;
         const location = yield getLocation(client_ip);
         const temperature = yield getWeather(location.lon, location.lat);
         return res.status(400).json({

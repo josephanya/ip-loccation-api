@@ -15,7 +15,8 @@ app.use(cors());
 app.get('/api/hello', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const visitor_name = req.query.visitor_name;
-        const client_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        // const client_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        const client_ip = req.ip;
         const location = await getLocation(client_ip as string);
         const temperature = await getWeather(location.lon, location.lat);
         return res.status(400).json({
