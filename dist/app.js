@@ -17,16 +17,17 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const axios_1 = __importDefault(require("axios"));
+const request_ip_1 = __importDefault(require("request-ip"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
 app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)());
+app.use(request_ip_1.default.mw());
 app.get('/api/hello', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const visitor_name = req.query.visitor_name;
-        // const client_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-        const client_ip = req.ip;
+        const client_ip = req.clientIp;
         const location = yield getLocation(client_ip);
         const temperature = yield getWeather(location.lon, location.lat);
         return res.status(400).json({
