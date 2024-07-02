@@ -48,7 +48,6 @@ const getWeather = async (lon: string, lat: string) => {
     }
 }
 
-
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.json({
         message: 'server is working'

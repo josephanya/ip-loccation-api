@@ -5,9 +5,17 @@
   "main": "app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/app.js",
+    "start": "nodemon dist/app.js",
+    "build": "rimraf dist && tsc",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add dist",
     "local": "nodemon app.ts"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "keywords": [
     "ip",
     "location"
@@ -26,6 +34,8 @@
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.9",
     "nodemon": "^3.1.4",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^5.0.7",
     "typescript": "^5.5.2"
   }
 }
