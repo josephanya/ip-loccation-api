@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from "dotenv";
 import axios from "axios";
-import requestIp from 'request-ip';
 
 
 dotenv.config();
@@ -13,12 +12,11 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(requestIp.mw())
 
 app.get('/api/hello', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const visitor_name = req.query.visitor_name;
-        const client_ip = req.clientIp;
+        const client_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
         const location = await getLocation(client_ip as string);
         const temperature = await getWeather(location.lon, location.lat);
         return res.status(400).json({
